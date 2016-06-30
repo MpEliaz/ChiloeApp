@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/Base.Widget.AppCompat.RatingBar">
+    
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="130dp"
+                android:id="@+id/plist_image"
+                android:background="#e36868"
+                android:src="@drawable/hotel3"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hotel Patagonia Insular"
+                android:id="@+id/plist_nombre"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/plist_image"
+                android:layout_toEndOf="@+id/plist_image"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:singleLine="false"
+                android:ellipsize="end"
+                android:maxLines="2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen."
+                android:id="@+id/plist_desc_corta"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:layout_below="@+id/plist_nombre"
+                android:layout_alignLeft="@+id/plist_nombre"
+                android:layout_alignStart="@+id/plist_nombre"
+                android:layout_marginTop="5dp"
+                android:visibility="gone" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/plist_rb"
+                android:numStars="5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar"
+                style="@style/RatingBar"
+                android:rating="5"
+                android:layout_below="@+id/textView2"
+                android:layout_alignLeft="@+id/plist_nombre"
+                android:layout_alignStart="@+id/plist_nombre" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Curaco de Velez"
+                android:id="@+id/textView2"
+                android:textStyle="bold"
+                android:layout_below="@+id/plist_nombre"
+                android:layout_alignLeft="@+id/plist_nombre"
+                android:layout_alignStart="@+id/plist_nombre"
+                android:layout_marginTop="5dp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
