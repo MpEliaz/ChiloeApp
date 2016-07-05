@@ -18,16 +18,19 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="El Titulo del mensaje"
-            android:id="@+id/textView3"
+            android:text="Viajes Especiales a todo Chiloé"
+            android:id="@+id/vp_titulo"
             android:textColor="@color/texto"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
@@ -35,24 +38,23 @@
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="1"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="left" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="un texto de bajada donde se explica rapido algo"
-            android:id="@+id/textView4"
-            android:layout_below="@+id/textView3"
+            android:text="Mas informacion aqui"
+            android:id="@+id/vp_desc"
+            android:layout_below="@+id/vp_titulo"
             android:layout_centerHorizontal="true"
             android:textColor="@color/texto"
-            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:shadowColor="#2c2b2b"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="1"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="left" />
     </LinearLayout>
 
 </RelativeLayout>

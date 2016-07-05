@@ -45,7 +45,20 @@
                         android:text="Medium Text"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/textColorWhite"
-                        android:padding="10dp" />
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="aqui va la descripcion del producto que esta en venta y luego abre una ficha"
+                        android:id="@+id/textView2"
+                        android:textColor="@color/textColorWhite"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

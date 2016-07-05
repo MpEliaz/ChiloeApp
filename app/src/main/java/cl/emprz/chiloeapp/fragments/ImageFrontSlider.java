@@ -1,12 +1,14 @@
 package cl.emprz.chiloeapp.fragments;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import cl.emprz.chiloeapp.R;
 
@@ -52,6 +54,12 @@ public class ImageFrontSlider extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_image_front_slider, container, false);
+
+        Typeface custom_bold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Montserrat-Bold.ttf");
+        Typeface custom_normal = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Montserrat-Regular.ttf");
+
+        TextView titulo = (TextView) v.findViewById(R.id.vp_titulo);
+        titulo.setTypeface(custom_bold);
 
         ImageView image = (ImageView) v.findViewById(R.id.imageSlider);
         image.setImageDrawable(getContext().getResources().getDrawable(url));

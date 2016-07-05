@@ -30,9 +30,10 @@ public class Pyme{
         this.url_imagen = url_imagen;
     }
 
-    public Pyme(int id, String nombre, String descipcion_corta, int calificacion, String url_imagen) {
+    public Pyme(int id, String nombre, String comuna, String descipcion_corta, int calificacion, String url_imagen) {
         this.id = id;
         this.nombre = nombre;
+        this.comuna = comuna;
         this.descipcion_corta = descipcion_corta;
         this.calificacion = calificacion;
         this.url_imagen = url_imagen;

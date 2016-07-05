@@ -50,7 +50,7 @@ public class Novedades extends Fragment implements novedadesAdapter.OnItemClickL
         //OBJECTO EN LA LISTA
         ArrayList<Object> objectos = new ArrayList<>();
         objectos.add("viewpager");
-        objectos.add("el tiempo");
+        //objectos.add("el tiempo");
         objectos.add(new Pyme(1, "Parque Tantauco", "http://www.travelsecurity.cl/portals/0/Images/Tendencias/Tendencias-Chiloe/img2.jpg"));
         objectos.add(new Pyme(2, "Hosteria Quellón", "http://www.interpatagonia.com/paseos/museo-arte-moderno-chiloe/museo-arte-moderno-chiloe-b.jpg"));
         objectos.add(new Pyme(3, "Hotel3", "http://cdn1.buuteeq.com/upload/14096/chiloe-2.JPG"));

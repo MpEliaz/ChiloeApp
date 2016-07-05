@@ -76,7 +76,7 @@ public class SqLiteEventos extends SQLiteOpenHelper {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 Evento e = new Evento();
-                e.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                //e.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 e.set_Id(cursor.getString(cursor.getColumnIndex("_id")));
                 e.setTitulo(cursor.getString(cursor.getColumnIndex("titulo")));
                 e.setDescripcion(cursor.getString(cursor.getColumnIndex("descripcion")));

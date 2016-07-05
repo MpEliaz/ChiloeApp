@@ -5,4 +5,5 @@ package cl.emprz.chiloeapp.util;
  */
 public class Constantes {
     public static String url_get_eventos = "http://192.168.50.17:3000/api/eventos/";
+    public static String url_get_pymes = "http://192.168.50.17:3000/api/pymes";
 }

@@ -9,7 +9,8 @@
         android:layout_height="130dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 android:singleLine="false"
                 android:ellipsize="end"
                 android:maxLines="2" />
@@ -61,21 +62,68 @@
                 android:theme="@style/RatingBar"
                 style="@style/RatingBar"
                 android:rating="5"
-                android:layout_below="@+id/textView2"
+                android:layout_below="@+id/plist_nombre"
                 android:layout_alignLeft="@+id/plist_nombre"
-                android:layout_alignStart="@+id/plist_nombre" />
+                android:layout_alignStart="@+id/plist_nombre"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Curaco de Velez"
-                android:id="@+id/textView2"
+                android:id="@+id/plist_comuna"
                 android:textStyle="bold"
-                android:layout_below="@+id/plist_nombre"
-                android:layout_alignLeft="@+id/plist_nombre"
-                android:layout_alignStart="@+id/plist_nombre"
-                android:layout_marginTop="5dp" />
+                android:layout_alignTop="@+id/linearLayout"
+                android:layout_alignLeft="@+id/plist_rb"
+                android:layout_alignStart="@+id/plist_rb" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/plist_nombre"
+                android:layout_alignEnd="@+id/plist_nombre"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:id="@+id/linearLayout">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imageView13"
+                    android:src="@drawable/ic_favorite_black_48dp"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="20"
+                    android:id="@+id/textView14"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imageView14"
+                    android:src="@drawable/ic_mode_comment_black_48dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="20"
+                    android:id="@+id/textView15"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp" />
+            </LinearLayout>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

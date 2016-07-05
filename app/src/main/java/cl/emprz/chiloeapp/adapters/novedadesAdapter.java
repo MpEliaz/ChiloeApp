@@ -1,6 +1,7 @@
 package cl.emprz.chiloeapp.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -94,10 +95,13 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
         }else if(holder instanceof VHPyme) {
+            Typeface custom_normal = Typeface.createFromAsset(cx.getAssets(), "fonts/Montserrat-Regular.ttf");
+
             VHPyme vh = (VHPyme)holder;
             Pyme p = (Pyme)getItem(position);
             //vh.id = p.getId();
             vh.titulo.setText(p.getNombre());
+            vh.titulo.setTypeface(custom_normal);
             Glide.with(cx).load(p.getUrl_imagen()).centerCrop().into(vh.imagen);
             Log.i("IMG", "deberia cargar la imagen "+p.getId());
             vh.toolbar.inflateMenu(R.menu.menu_item_destacado);
@@ -112,13 +116,24 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
 
-        switch (position){
+/*        switch (position){
             case 0:
                 return TYPE_HEADER;
             case 1:
                 return TYPE_WEATHER;
             case 2:
                 return TYPE_ITEM;
+        }
+        return 2;*/
+
+        if(objetos.get(position) instanceof Pyme){
+            return 2;
+        }else if(objetos.get(position) instanceof String){
+            if(objetos.get(position) == "viewpager"){
+                return 1;
+            }else if(objetos.get(position) == "weather"){
+                return 3;
+            }
         }
         return 2;
     }

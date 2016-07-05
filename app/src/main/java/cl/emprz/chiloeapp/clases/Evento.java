@@ -1,13 +1,17 @@
 package cl.emprz.chiloeapp.clases;
 
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
 import java.util.Date;
 
 /**
  * Created by elias on 17-06-16.
  */
-public class Evento {
+@Table
+public class Evento extends SugarRecord {
 
-    private int id;
+    private Long id;
     private String _id;
     private String titulo;
     private String descripcion;
@@ -19,7 +23,7 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(int id, String titulo, String descripcion, String fecha, String comuna, String imagen) {
+    public Evento(Long id, String titulo, String descripcion, String fecha, String comuna, String imagen) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -28,11 +32,11 @@ public class Evento {
         this.imagen = imagen;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

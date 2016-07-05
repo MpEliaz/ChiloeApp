@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cl.emprz.chiloeapp.ActividadPrincipal;
@@ -65,6 +66,12 @@ public class Eventos extends Fragment implements EventosAdapter.OnItemClickListe
             obtenerEventosDesdeAPI();
 
         }else {
+
+            List<Evento> eventos = Evento.listAll(Evento.class);
+
+            for (Evento e : eventos) {
+                Log.i("SQLite EC",e.getTitulo());
+            }
 /*
         db = new SqLiteEventos(getActivity());
         //eventos = db.obtenerTodosLosEventos();
@@ -140,6 +147,11 @@ public class Eventos extends Fragment implements EventosAdapter.OnItemClickListe
                         Log.i("EC", o.toString());
                     }
                     adapter.notifyDataSetChanged();
+
+/*                    for (Evento e : eventos) {
+                        e.save();
+                    }*/
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
