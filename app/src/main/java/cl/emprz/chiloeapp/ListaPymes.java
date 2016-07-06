@@ -53,18 +53,18 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
         if(util.estaConectado()){
 
             obtenerPymesDesdeAPI(id_tipo);
+        }else {
+            pymes.add(new Pyme(1,"Hotel Tierra del fuego","Quellón", "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.", 3, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
+            pymes.add(new Pyme(2,"Hosteria Quellón","Quellón", "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.", 1, "http://aff.bstatic.com/images/hotel/840x460/361/36113534.jpg?s=116x88&ar=16x9"));
+            pymes.add(new Pyme(3,"Hotel Corcovado","Chonchi", "una descripcion corta", 2, "https://media-cdn.tripadvisor.com/media/photo-s/02/29/9b/29/the-hotel-from-the-street.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "https://media-cdn.tripadvisor.com/media/photo-s/03/9f/2c/23/centro-de-ocio-hotel.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
+            pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
         }
-
-        pymes.add(new Pyme(1,"Hotel Tierra del fuego","Quellón", "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.", 3, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
-        pymes.add(new Pyme(2,"Hosteria Quellón","Quellón", "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.", 1, "http://aff.bstatic.com/images/hotel/840x460/361/36113534.jpg?s=116x88&ar=16x9"));
-        pymes.add(new Pyme(3,"Hotel Corcovado","Chonchi", "una descripcion corta", 2, "https://media-cdn.tripadvisor.com/media/photo-s/02/29/9b/29/the-hotel-from-the-street.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "https://media-cdn.tripadvisor.com/media/photo-s/03/9f/2c/23/centro-de-ocio-hotel.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
-        pymes.add(new Pyme(3,"Hotel Patagonia","Quellón", "una descripcion corta", 2, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
 
 
 
@@ -89,6 +89,11 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
 
                         Pyme p = new Pyme();
                         p.set_id(o.getString("_id"));
+                        p.setNombre(o.getString("nombre"));
+                        p.setDireccion(o.getString("direccion"));
+                        p.setComuna(o.getString("comuna"));
+                        p.setUrl_imagen(o.getString("imagen_lista"));
+                        p.setCalificacion(o.getInt("calificacion"));
 
                         pymes.add(p);
                         Log.i("EC", o.toString());

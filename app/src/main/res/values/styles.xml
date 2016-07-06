@@ -25,4 +25,9 @@
         <item name="android:maxWidth">48dp</item>
     </style>
 
+    <style name="ToolbarDestacado" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+    </style>
+
 </resources>

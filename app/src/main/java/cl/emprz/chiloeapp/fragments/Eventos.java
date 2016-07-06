@@ -139,7 +139,7 @@ public class Eventos extends Fragment implements EventosAdapter.OnItemClickListe
                         e.set_Id(o.getString("_id"));
                         e.setTitulo(o.getString("titulo"));
                         e.setDescripcion(o.getString("descripcion"));
-                        e.setComuna(o.getString("comuna"));
+                        e.setComuna(o.getJSONObject("comuna").getString("nombre"));
                         //e.setFecha(o.getString("fecha"));
                         e.setValor(o.getInt("valor"));
                         e.setImagen(o.getString("imagen"));
