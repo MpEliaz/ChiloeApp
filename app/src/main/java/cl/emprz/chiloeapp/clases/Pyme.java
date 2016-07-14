@@ -20,6 +20,8 @@ public class Pyme{
     private int calificacion;
     private String url_imagen;
     private String[] imagenes;
+    private Double latitud;
+    private Double longitud;
 
     public Pyme() {
     }
@@ -133,5 +135,21 @@ public class Pyme{
 
     public void setImagenes(String[] imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 }

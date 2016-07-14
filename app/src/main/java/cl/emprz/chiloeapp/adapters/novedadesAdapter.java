@@ -2,6 +2,8 @@ package cl.emprz.chiloeapp.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cl.emprz.chiloeapp.R;
 import cl.emprz.chiloeapp.clases.Pyme;
@@ -36,6 +41,9 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnItemClickListener onItemClickListener;
     private int[] images;
     private Context cx;
+
+    Timer timer;
+    int page = 1;
 
     public novedadesAdapter(Context cx, FragmentManager fm, List<Object> objetos, int[] images) {
         this.fm = fm;
@@ -89,6 +97,9 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imageSliderFrontAdapter adapter = new imageSliderFrontAdapter(fm, images);
             vhViewPager.pager.setAdapter(adapter);
             vhViewPager.indicator.setViewPager(vhViewPager.pager);
+
+            pageSwitcher(4,vhViewPager.pager);
+
 
         }else if(holder instanceof VHWheather) {
             VHWheather vh = (VHWheather)holder;
@@ -185,4 +196,29 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
     }
+
+    public void pageSwitcher(int seconds, final ViewPager viewPager) {
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int numPages = viewPager.getAdapter().getCount();
+                page = (page + 1) % numPages;
+                viewPager.setCurrentItem(page);
+            }
+        };
+
+        timer = new Timer(); // At this line a new Thread will be created
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+                handler.post(runnable);
+            }
+        }, 0, seconds * 1000); // delay
+        // in
+        // milliseconds
+    }
+
 }

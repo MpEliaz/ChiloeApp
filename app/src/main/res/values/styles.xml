@@ -26,8 +26,26 @@
     </style>
 
     <style name="ToolbarDestacado" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlNormal">#ffffff</item>
-        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="colorControlNormal">@color/textColorWhite</item>
+        <item name="android:textColorPrimary">@color/textColorWhite</item>
+    </style>
+
+    <style name="boton_rojo" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#c46363</item>
+        <item name="android:textColorPrimary">#fff</item>
+    </style>
+
+    <style name="boton_azul" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#638bc4</item>
+        <item name="android:textColorPrimary">#fff</item>
+    </style>
+
+    <style name="titulo_ficha" parent="TextAppearance.AppCompat.Title">
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowColor">#2c2b2b</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:textSize">26sp</item>
     </style>
 
 </resources>

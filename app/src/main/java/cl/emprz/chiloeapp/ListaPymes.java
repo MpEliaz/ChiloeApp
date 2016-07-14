@@ -94,6 +94,19 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
                         p.setComuna(o.getString("comuna"));
                         p.setUrl_imagen(o.getString("imagen_lista"));
                         p.setCalificacion(o.getInt("calificacion"));
+                        p.setLatitud(o.getJSONObject("ubicacion").getDouble("lat"));
+                        p.setLongitud(o.getJSONObject("ubicacion").getDouble("lng"));
+
+                        String[] imagenes ={};
+                        JSONArray images = o.getJSONArray("imagenes");
+
+/*                        if(images.length() > 0){
+
+                            for(i=0;i < images.length(); i++){
+                                imagenes[i] = images.getJSONObject(i).getString("url");
+                            }
+                            p.setImagenes(imagenes);
+                        }*/
 
                         pymes.add(p);
                         Log.i("EC", o.toString());
@@ -135,7 +148,13 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
     public void onItemClick(View view, Pyme pyme, int position) {
         Intent i = new Intent(this, Ficha.class);
         i.putExtra("nombre",pyme.getNombre());
-        i.putExtra("id",pyme.getId());
+        i.putExtra("id",pyme.get_id());
+        i.putExtra("direccion",pyme.getDireccion());
+        i.putExtra("comuna",pyme.getComuna());
+        i.putExtra("calificacion",pyme.getCalificacion());
+        i.putExtra("lat",pyme.getLatitud());
+        i.putExtra("lng",pyme.getLongitud());
+        i.putExtra("imagenes", pyme.getImagenes());
         startActivity(i);
     }
 }

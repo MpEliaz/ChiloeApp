@@ -2,6 +2,7 @@ package cl.emprz.chiloeapp;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,11 +14,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class FichaMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String nombre;
+    private Double lat;
+    private Double lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ficha_map);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+
+            nombre = bundle.getString("nombre");
+            lat = bundle.getDouble("lat");
+            lng = bundle.getDouble("lng");
+
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -39,8 +52,8 @@ public class FichaMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng mark = new LatLng(lat, lng);
+        mMap.addMarker(new MarkerOptions().position(mark).title(nombre));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mark,10));
     }
 }
