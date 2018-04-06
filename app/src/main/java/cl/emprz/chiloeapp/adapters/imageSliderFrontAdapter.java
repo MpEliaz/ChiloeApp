@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.List;
+
+import cl.emprz.chiloeapp.clases.Destacado;
 import cl.emprz.chiloeapp.fragments.ImageFrontSlider;
 
 /**
@@ -11,20 +14,20 @@ import cl.emprz.chiloeapp.fragments.ImageFrontSlider;
  */
 public class imageSliderFrontAdapter extends FragmentStatePagerAdapter {
 
-    int[] imagenes;
+    private List<Destacado> destacados;
 
-    public imageSliderFrontAdapter(FragmentManager fm, int[] imagenes) {
+    public imageSliderFrontAdapter(FragmentManager fm, List<Destacado> destacados) {
         super(fm);
-        this.imagenes = imagenes;
+        this.destacados = destacados;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return ImageFrontSlider.newInstance(imagenes[position], "Titulo");
+        return ImageFrontSlider.newInstance(destacados.get(position).getImagen(), destacados.get(position).getTitulo(), destacados.get(position).getSub_titulo());
     }
 
     @Override
     public int getCount() {
-        return imagenes.length;
+        return destacados.size();
     }
 }

@@ -9,11 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import cl.emprz.chiloeapp.Informaciones;
 import cl.emprz.chiloeapp.ListaPymes;
 import cl.emprz.chiloeapp.R;
 import cl.emprz.chiloeapp.adapters.categoriasAdapter;
@@ -37,7 +36,8 @@ public class Categorias extends Fragment implements categoriasAdapter.OnItemClic
         categorias.add(new Categoria(1,"¿Donde Dormir?",R.drawable.hostal));
         categorias.add(new Categoria(2,"¿Donde Comer?",R.drawable.curanto));
         categorias.add(new Categoria(3,"¿Qué Hacer?",R.drawable.muelle));
-        categorias.add(new Categoria(3,"¿Qué Visitar?",R.drawable.iglesia));
+        categorias.add(new Categoria(4,"¿Qué Visitar?",R.drawable.iglesia));
+        categorias.add(new Categoria(5,"Informaciones",R.drawable.hospital));
 
 
     }
@@ -61,9 +61,15 @@ public class Categorias extends Fragment implements categoriasAdapter.OnItemClic
     @Override
     public void onItemClick(View view, Categoria categoria, int position) {
 //        Toast.makeText(getContext(), categoria.getId(), Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(getActivity(), ListaPymes.class);
-        i.putExtra("titulo",categoria.getNombre());
-        i.putExtra("id",categoria.getId());
+        Intent i = null;
+        if(categoria.getNombre() != "Informaciones"){
+            i = new Intent(getActivity(), ListaPymes.class);
+            i.putExtra("titulo",categoria.getNombre());
+            i.putExtra("id_tipo",categoria.getId());
+        }else{
+            i = new Intent(getActivity(), Informaciones.class);
+        }
+
         startActivity(i);
     }
 }

@@ -1,13 +1,14 @@
 package cl.emprz.chiloeapp.clases;
 
-import com.orm.SugarRecord;
+//import com.orm.SugarRecord;
 
 /**
  * Created by elias on 17-06-16.
  */
-public class Evento extends SugarRecord {
+//public class Evento extends SugarRecord {
+public class Evento {
 
-    private Long id;
+    private int id;
     private String _id;
     private String titulo;
     private String descripcion;
@@ -19,7 +20,7 @@ public class Evento extends SugarRecord {
     public Evento() {
     }
 
-    public Evento(Long id, String titulo, String descripcion, String fecha, String comuna, String imagen) {
+    public Evento(int id, String titulo, String descripcion, String fecha, String comuna, String imagen) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -36,11 +37,11 @@ public class Evento extends SugarRecord {
         this.imagen = imagen;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

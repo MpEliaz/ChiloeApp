@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,6 +19,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +37,7 @@ import java.util.Map;
 
 import cl.emprz.chiloeapp.ActividadPrincipal;
 import cl.emprz.chiloeapp.Ficha;
+import cl.emprz.chiloeapp.Holders.EventoListHolder;
 import cl.emprz.chiloeapp.R;
 import cl.emprz.chiloeapp.adapters.EventosAdapter;
 import cl.emprz.chiloeapp.adapters.categoriasAdapter;
@@ -48,9 +56,10 @@ public class Eventos extends Fragment implements EventosAdapter.OnItemClickListe
 
     private RecyclerView rv_event;
     private ArrayList<Evento> eventos;
-    private EventosAdapter adapter;
+    private FirebaseRecyclerAdapter adapter;
     private SqLiteEventos db;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    private Utilidades util;
 
 
 
@@ -59,33 +68,48 @@ public class Eventos extends Fragment implements EventosAdapter.OnItemClickListe
         super.onCreate(savedInstanceState);
 
         eventos = new ArrayList<>();
-        Utilidades util = new Utilidades(getContext());
+        util = new Utilidades(getContext());
 
-        if(util.estaConectado()){
+    }
 
-            obtenerEventosDesdeAPI();
+    private void obtenerEventosDesdeFirebase() {
 
-        }else {
+        final DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("eventos");
 
-            List<Evento> eventos = Evento.listAll(Evento.class);
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-            for (Evento e : eventos) {
-                Log.i("SQLite EC",e.getTitulo());
+                adapter = new FirebaseRecyclerAdapter<Evento, EventoListHolder>(Evento.class, R.layout.item_event2, EventoListHolder.class, db) {
+                    @Override
+                    protected void populateViewHolder(EventoListHolder eh, final Evento e, int position) {
+
+                        eh.setTitulo(e.getTitulo());
+                        eh.setDescripcion(e.getDescripcion());
+                        eh.setComuna(e.getComuna());
+                        eh.setFecha(e.getFecha());
+                        eh.setValor(e.getValor());
+                        eh.setImagen(e.getImagen(), getContext());
+
+                        eh.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getActivity(), e.getTitulo(), Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(getActivity(), Ficha.class);
+                                i.putExtra("id", e.getId());
+                                startActivity(i);
+                            }
+                        });
+                    }
+                };
+                rv_event.setAdapter(adapter);
             }
-/*
-        db = new SqLiteEventos(getActivity());
-        //eventos = db.obtenerTodosLosEventos();
-        eventos = new ArrayList<Evento>();
-        eventos.add(new Evento(1,"Minga todos invitados","gran minga gran", "10/3/2016", "Quellon", "http://www.xn--cabaaslascatas-tnb.cl/images/galeria/img213.jpg"));
-        eventos.add(new Evento(2,"Concierto de jazz: Chiloé musical","grandes bandas se presentaran en el gimnacion giscal", "10/3/2016", "Castro", "http://www.trifulka.com/trifulka/wp-content/uploads/2016/03/FondoHD.jpg"));
-        eventos.add(new Evento(3,"Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
-        eventos.add(new Evento(4,"Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
-        eventos.add(new Evento(5,"Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
-        eventos.add(new Evento(6,"Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
-        eventos.add(new Evento(7,"Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
-*/
-        }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -93,21 +117,48 @@ public class Eventos extends Fragment implements EventosAdapter.OnItemClickListe
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_eventos, container, false);
-        adapter = new EventosAdapter(getContext(), eventos);
-        adapter.setOnItemClickListener(this);
+        //adapter = new EventosAdapter(getContext(), eventos);
+        //adapter.setOnItemClickListener(this);
         rv_event = (RecyclerView)rootView.findViewById(R.id.rv_eventos);
         rv_event.setHasFixedSize(true);
         rv_event.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_event.setAdapter(adapter);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh_eventos);
+/*        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh_eventos);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                obtenerData();
+                //obtenerData();
             }
-        });
+        });*/
+
+        //<editor-fold desc="Conexion">
+        if(util.estaConectado()){
+
+            //obtenerEventosDesdeAPI();
+            obtenerEventosDesdeFirebase();
+
+        }else {
+
+/*            List<Evento> eventos = Evento.listAll(Evento.class);
+
+            for (Evento e : eventos) {
+                Log.i("SQLite EC",e.getTitulo());
+            }*/
+/*
+        db = new SqLiteEventos(getActivity());
+        //eventos = db.obtenerTodosLosEventos(); */
+            eventos = new ArrayList<Evento>();
+            eventos.add(new Evento("Minga todos invitados","gran minga gran", "10/3/2016", "Quellon", "http://www.xn--cabaaslascatas-tnb.cl/images/galeria/img213.jpg"));
+            eventos.add(new Evento("Concierto de jazz: Chiloé musical","grandes bandas se presentaran en el gimnacion giscal", "10/3/2016", "Castro", "http://www.trifulka.com/trifulka/wp-content/uploads/2016/03/FondoHD.jpg"));
+            eventos.add(new Evento("Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
+            eventos.add(new Evento("Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
+            eventos.add(new Evento("Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
+            eventos.add(new Evento("Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
+            eventos.add(new Evento("Torneo de futbolito a beneficio","vengan todos al primer torneo a beneficio del cuerpo de bomberos de la comuna de chonchi", "10/3/2016", "Chonchi", "http://www.ohigginsfc.cl/wp-content/uploads/2014/05/5-6.jpg"));
+        }
+        //</editor-fold>
 
         return rootView;
     }

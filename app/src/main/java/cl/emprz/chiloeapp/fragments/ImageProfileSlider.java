@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import cl.emprz.chiloeapp.R;
 
 /**
@@ -22,7 +24,7 @@ public class ImageProfileSlider extends Fragment {
     private static final String TITULO = "titulo";
 
     // TODO: Rename and change types of parameters
-    private int url;
+    private String url;
     private String titulo;
 
 
@@ -30,10 +32,10 @@ public class ImageProfileSlider extends Fragment {
         // Required empty public constructor
     }
 
-    public static ImageProfileSlider newInstance(int url, String titulo) {
+    public static ImageProfileSlider newInstance(String url, String titulo) {
         ImageProfileSlider fragment = new ImageProfileSlider();
         Bundle args = new Bundle();
-        args.putInt(URL, url);
+        args.putString(URL, url);
         args.putString(TITULO, titulo);
         fragment.setArguments(args);
         return fragment;
@@ -43,7 +45,7 @@ public class ImageProfileSlider extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            url = getArguments().getInt(URL);
+            url = getArguments().getString(URL);
             titulo = getArguments().getString(TITULO);
         }
     }
@@ -54,7 +56,8 @@ public class ImageProfileSlider extends Fragment {
         View v = inflater.inflate(R.layout.fragment_image_profile_slider, container, false);
 
         ImageView image = (ImageView) v.findViewById(R.id.imageSlider);
-        image.setImageDrawable(getContext().getResources().getDrawable(url));
+        //image.setImageDrawable(getContext().getResources().getDrawable(url));
+        Glide.with(getContext()).load(url).into(image);
         return v;
     }
 

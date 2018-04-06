@@ -1,22 +1,23 @@
+
 package cl.emprz.chiloeapp;
 
-import com.orm.SugarApp;
-import com.orm.SugarContext;
+import android.app.Application;
+import android.support.multidex.MultiDex;
 
-/**
- * Created by elias on 04-07-16.
- */
-public class App extends SugarApp {
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+public class App extends Application {
+
+    //private String FIREBASE_CHILD
 
     @Override
     public void onCreate() {
         super.onCreate();
-        SugarContext.init(this);
-    }
+        MultiDex.install(this);
 
-    @Override
-    public void onTerminate() {
-        SugarContext.terminate();
-        super.onTerminate();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 }
+

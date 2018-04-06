@@ -19,9 +19,12 @@ public class Pyme{
     private String descipcion_larga;
     private int calificacion;
     private String url_imagen;
-    private String[] imagenes;
+    //private ArrayList<Imagen> imagenes;
     private Double latitud;
     private Double longitud;
+    private int tipo_pyme;
+    private String web;
+    private int cantidadComentarios;
 
     public Pyme() {
     }
@@ -129,13 +132,13 @@ public class Pyme{
         this.url_imagen = url_imagen;
     }
 
-    public String[] getImagenes() {
+/*    public ArrayList<Imagen> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(String[] imagenes) {
+    public void setImagenes(ArrayList<Imagen> imagenes) {
         this.imagenes = imagenes;
-    }
+    }*/
 
     public Double getLatitud() {
         return latitud;
@@ -151,5 +154,29 @@ public class Pyme{
 
     public void setLongitud(Double longitud) {
         this.longitud = longitud;
+    }
+
+    public int getTipo_pyme() {
+        return tipo_pyme;
+    }
+
+    public void setTipo_pyme(int tipo_pyme) {
+        this.tipo_pyme = tipo_pyme;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public int getCantidadComentarios() {
+        return cantidadComentarios;
+    }
+
+    public void setCantidadComentarios(int cantidadComentarios) {
+        this.cantidadComentarios = cantidadComentarios;
     }
 }

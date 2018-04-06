@@ -24,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cl.emprz.chiloeapp.R;
+import cl.emprz.chiloeapp.clases.Destacado;
 import cl.emprz.chiloeapp.clases.Pyme;
 
 /**
@@ -40,15 +41,16 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<Object> objetos;
     private OnItemClickListener onItemClickListener;
     private int[] images;
+    private List<Destacado> destacados;
     private Context cx;
 
     Timer timer;
     int page = 1;
 
-    public novedadesAdapter(Context cx, FragmentManager fm, List<Object> objetos, int[] images) {
+    public novedadesAdapter(Context cx, FragmentManager fm, List<Object> objetos, List<Destacado> destacados) {
         this.fm = fm;
         this.objetos = objetos;
-        this.images = images;
+        this.destacados = destacados;
         this.cx = cx;
     }
 
@@ -94,7 +96,7 @@ public class novedadesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(position == 0){
 
             VHViewPager vhViewPager = (VHViewPager) holder;
-            imageSliderFrontAdapter adapter = new imageSliderFrontAdapter(fm, images);
+            imageSliderFrontAdapter adapter = new imageSliderFrontAdapter(fm, destacados);
             vhViewPager.pager.setAdapter(adapter);
             vhViewPager.indicator.setViewPager(vhViewPager.pager);
 

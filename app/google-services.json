@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "856435879238",
+    "firebase_url": "https://chiloeapp.firebaseio.com",
+    "project_id": "chiloeapp",
+    "storage_bucket": "chiloeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856435879238:android:ff09653462c53b43",
+        "android_client_info": {
+          "package_name": "cl.emprz.chiloeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856435879238-i6f2kafl6tu657igpm7lo70522l95rrb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cl.emprz.chiloeapp",
+            "certificate_hash": "0B5FBBE7D90D2C1BF1DEEA5413BC0F55D44E7B57"
+          }
+        },
+        {
+          "client_id": "856435879238-d81l0hbjd29q5vnulkrd2e1ou6n14o23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzBt8Wtj__c3FVftCPxpQTIfhPj7mUmDU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
