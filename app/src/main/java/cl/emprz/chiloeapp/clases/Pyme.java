@@ -15,8 +15,8 @@ public class Pyme{
     private String telefono;
     private String comuna;
     private String email;
-    private String descipcion_corta;
-    private String descipcion_larga;
+    private String descripcion_corta;
+    private String descripcion_larga;
     private int calificacion;
     private String url_imagen;
     //private ArrayList<Imagen> imagenes;
@@ -35,11 +35,11 @@ public class Pyme{
         this.url_imagen = url_imagen;
     }
 
-    public Pyme(int id, String nombre, String comuna, String descipcion_corta, int calificacion, String url_imagen) {
+    public Pyme(int id, String nombre, String comuna, String descripcion_corta, int calificacion, String url_imagen) {
         this.id = id;
         this.nombre = nombre;
         this.comuna = comuna;
-        this.descipcion_corta = descipcion_corta;
+        this.descripcion_corta = descripcion_corta;
         this.calificacion = calificacion;
         this.url_imagen = url_imagen;
     }
@@ -100,20 +100,20 @@ public class Pyme{
         this.email = email;
     }
 
-    public String getDescipcion_corta() {
-        return descipcion_corta;
+    public String getDescripcion_corta() {
+        return descripcion_corta;
     }
 
-    public void setDescipcion_corta(String descipcion_corta) {
-        this.descipcion_corta = descipcion_corta;
+    public void setDescripcion_corta(String descripcion_corta) {
+        this.descripcion_corta = descripcion_corta;
     }
 
-    public String getDescipcion_larga() {
-        return descipcion_larga;
+    public String getDescripcion_larga() {
+        return descripcion_larga;
     }
 
-    public void setDescipcion_larga(String descipcion_larga) {
-        this.descipcion_larga = descipcion_larga;
+    public void setDescripcion_larga(String descripcion_larga) {
+        this.descripcion_larga = descripcion_larga;
     }
 
     public int getCalificacion() {

@@ -6,40 +6,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.List;
 
-import cl.emprz.chiloeapp.Holders.PymeListaHolder;
 import cl.emprz.chiloeapp.adapters.pymeListAdapter;
 import cl.emprz.chiloeapp.clases.Imagen;
 import cl.emprz.chiloeapp.clases.Pyme;
-import cl.emprz.chiloeapp.util.Constantes;
-import cl.emprz.chiloeapp.util.ECSingleton;
 import cl.emprz.chiloeapp.util.Utilidades;
 
 public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnItemClickListener{
@@ -50,8 +34,7 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
     private pymeListAdapter adapter;
     private String FIREBASE_CHILD = "pymes";
     private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter mAdapter;
-    private FirestoreRecyclerAdapter mAdapter2;
+    //private FirebaseRecyclerAdapter mAdapter;
     private ProgressBar progressBar;
     private FirebaseFirestore db;
 
@@ -74,14 +57,14 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
             ab.setTitle(bundle.getString("titulo"));
         }
 
-        pymes = new ArrayList<Pyme>();
+        //pymes = new ArrayList<Pyme>();
         Utilidades util = new Utilidades(ListaPymes.this);
 
         //<editor-fold desc="Obtener datos local del api">
         if(util.estaConectado()){
 
             //obtenerPymesDesdeAPI(id_tipo);
-            obtenerPymesFirebase(id_tipo);
+            //obtenerPymesFirebase(id_tipo);
         }else {
             //<editor-fold desc="RELLENAR LIST">
             pymes.add(new Pyme(1,"Hotel Tierra del fuego","Quellón", "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.", 3, "http://www.patagonialoslagos.cl/assets/img/productos/1349_.jpg"));
@@ -132,14 +115,14 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
 
 
         rv = (RecyclerView) findViewById(R.id.rv_lista_pymes);
-        adapter = new pymeListAdapter(ListaPymes.this, pymes);
-        adapter.setOnItemClickListener(this);
+        //adapter = new pymeListAdapter(ListaPymes.this, pymes, db);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         //rv.setAdapter(adapter);
+        obtenerPymesFirestore(id_tipo);
     }
 
-    private void obtenerPymesFirebase(int id_tipo){
+    /*private void obtenerPymesFirebase(int id_tipo){
 
         final Query db = FirebaseDatabase.getInstance().getReference().child("pymes").orderByChild("tipo_pyme").equalTo(id_tipo);
 
@@ -188,21 +171,41 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
 
             }
         });
-    }
+    }*/
 
     private void obtenerPymesFirestore(int id_tipo){
-        final CollectionReference pymesRef = db.collection("pymes");
-        Query query = pymesRef.whereEqualTo("tipo_pyme", id_tipo);
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+        final Query query = db.collection("pymes").whereEqualTo("tipo_pyme", id_tipo);
 
-                mAdapter2 = FirestoreRecyclerAdapter<Pyme ,PymeListaHolder>()
+        FirestoreRecyclerOptions<Pyme> response = new FirestoreRecyclerOptions.Builder<Pyme>()
+                .setQuery(query, Pyme.class).build();
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+
+                if(task.isSuccessful()){
+
+                    List<Pyme> pymes = new ArrayList<>();
+
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        Pyme pyme = doc.toObject(Pyme.class);
+                        pyme.set_id(doc.getId());
+                        pymes.add(pyme);
+                    }
+                    adapter = new pymeListAdapter(getApplicationContext(), pymes, db);
+                    adapter.setOnItemClickListener(ListaPymes.this);
+                    rv.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+                }else{
+
+                }
             }
         });
+
+
     }
 
-    private void obtenerPymesDesdeAPI(int id_tipo) {
+    /*private void obtenerPymesDesdeAPI(int id_tipo) {
 
         StringRequest request = new StringRequest(Request.Method.GET, Constantes.url_get_pymes, new Response.Listener<String>() {
             @Override
@@ -245,9 +248,9 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
                     }
                     adapter.notifyDataSetChanged();
 
-/*                    for (Evento e : eventos) {
+*//*                    for (Evento e : eventos) {
                         e.save();
-                    }*/
+                    }*//*
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -259,13 +262,13 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
                 Log.i("EC", "error: "+ error);
             }
         }){
-/*            @Override
+*//*            @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("relacion", "");
                 return params;
-            }*/
+            }*//*
 
             @Override
             public String getBodyContentType() {
@@ -274,7 +277,7 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
         };
 
         ECSingleton.getInstance(ListaPymes.this).addToRequestQueue(request);
-    }
+    }*/
 
     @Override
     public void onItemClick(View view, Pyme pyme, int position) {
@@ -292,7 +295,7 @@ public class ListaPymes extends AppCompatActivity implements pymeListAdapter.OnI
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mAdapter != null)
-            mAdapter.cleanup();
+/*        if(mAdapter != null)
+            mAdapter.cleanup();*/
     }
 }

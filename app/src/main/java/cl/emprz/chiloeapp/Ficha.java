@@ -30,9 +30,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,7 +59,7 @@ public class Ficha extends AppCompatActivity implements OnMapReadyCallback {
     CollapsingToolbarLayout collapsingToolbarLayout;
     Timer timer;
     int page = 1;
-    private int id;
+    private String id;
 
     private TextView descripcion;
     private TextView direccion;
@@ -58,18 +67,19 @@ public class Ficha extends AppCompatActivity implements OnMapReadyCallback {
     private TextView telefono;
     private TextView web;
     private FloatingActionButton fab;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ficha);
 
-
+        db = FirebaseFirestore.getInstance();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
-            id = bundle.getInt("id");
+            id = bundle.getString("id");
 /*            nombre = bundle.getString("nombre");
             direccion = bundle.getString("direccion");
             comuna = bundle.getString("comuna");
@@ -124,9 +134,28 @@ public class Ficha extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     private void obtenerDatos() {
-        final Query db = FirebaseDatabase.getInstance().getReference("pymes/"+id);
 
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DocumentReference docref = db.collection("pymes").document(id);
+
+        docref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("", "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d("", "Current data: " + snapshot.getData());
+                    setearDatos(snapshot);
+                } else {
+                    Log.d("", "Current data: null");
+                }
+            }
+        });
+/*        final Query query = db.collection("pymes");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -137,23 +166,25 @@ public class Ficha extends AppCompatActivity implements OnMapReadyCallback {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
-    private void setearDatos(DataSnapshot dataSnapshot) {
+    private void setearDatos(DocumentSnapshot dataSnapshot) {
 
-        final Pyme p = dataSnapshot.getValue(Pyme.class);
-        ArrayList<Imagen> images = new ArrayList();
-        DataSnapshot imagenes = dataSnapshot.child("imagenes");
-        url_imagenes = new ArrayList<>();
+        final Pyme p = dataSnapshot.toObject(Pyme.class);
+        final ArrayList<Imagen> url_imagenes = new ArrayList();
+        final CollectionReference docref = db.collection("pymes").document(id).collection("imagenes");
 
-        for (DataSnapshot i : imagenes.getChildren()) {
+        docref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-            Imagen imagen = i.getValue(Imagen.class);
-            url_imagenes.add(imagen);
-            //DataSnapshot d = i.child("imagenes");
-
-        }
+                for (DocumentSnapshot doc : documentSnapshots.getDocuments()) {
+                    Imagen imagen = doc.toObject(Imagen.class);
+                    url_imagenes.add(imagen);
+                }
+            }
+        });
 
         descripcion = (TextView) findViewById(R.id.ficha_descripcion);
         direccion = (TextView) findViewById(R.id.ficha_direccion);
@@ -161,7 +192,7 @@ public class Ficha extends AppCompatActivity implements OnMapReadyCallback {
         telefono = (TextView) findViewById(R.id.ficha_telefono);
         web = (TextView) findViewById(R.id.ficha_web);
 
-        descripcion.setText(p.getDescipcion_larga());
+        descripcion.setText(p.getDescripcion_larga());
         direccion.setText(p.getDireccion());
         email.setText(p.getEmail());
         telefono.setText(p.getTelefono());
@@ -175,7 +206,7 @@ public class Ficha extends AppCompatActivity implements OnMapReadyCallback {
         pager = (ViewPager) findViewById(R.id.pager_ficha);
         adapter = new imageSliderProfileAdapter(getSupportFragmentManager(), url_imagenes);
         pager.setAdapter(adapter);
-        InkPageIndicator indicator = (InkPageIndicator)findViewById(R.id.indicator_ficha);
+        InkPageIndicator indicator = findViewById(R.id.indicator_ficha);
         indicator.setViewPager(pager);
 
         fab.setOnClickListener(new View.OnClickListener() {

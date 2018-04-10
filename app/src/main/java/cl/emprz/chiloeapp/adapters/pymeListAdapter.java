@@ -12,6 +12,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -27,10 +29,12 @@ public class pymeListAdapter extends RecyclerView.Adapter<pymeListAdapter.ItemVi
     List<Pyme> pymes;
     private OnItemClickListener onItemClickListener;
     Context cx;
+    private FirebaseFirestore firestoreDB;
 
-    public pymeListAdapter(Context cx, List<Pyme> pymes) {
+    public pymeListAdapter(Context cx, List<Pyme> pymes, FirebaseFirestore firestoreDB) {
         this.pymes = pymes;
         this.cx = cx;
+        this.firestoreDB = firestoreDB;
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
@@ -81,7 +85,7 @@ public class pymeListAdapter extends RecyclerView.Adapter<pymeListAdapter.ItemVi
         holder.nombre.setTypeface(custom_bold);
         holder.comuna.setText(pymes.get(position).getComuna());
         holder.comuna.setTypeface(custom_normal);
-        holder.descripcion.setText(pymes.get(position).getDescipcion_corta());
+        holder.descripcion.setText(pymes.get(position).getDescripcion_corta());
         holder.ratingBar.setRating(pymes.get(position).getCalificacion());
     }
 
